@@ -1,0 +1,11 @@
+Model Information:
+* title:	Herman Miller Eames Lounge Chair
+* source:	https://sketchfab.com/3d-models/herman-miller-eames-lounge-chair-d8a999565942444d844afd39dbaf5425
+* author:	alexshupp (https://sketchfab.com/alexshupp)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Herman Miller Eames Lounge Chair" (https://sketchfab.com/3d-models/herman-miller-eames-lounge-chair-d8a999565942444d844afd39dbaf5425) by alexshupp (https://sketchfab.com/alexshupp) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
