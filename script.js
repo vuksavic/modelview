@@ -25,20 +25,37 @@ scene.environment = pmrremGenerator.fromScene( new RoomEnvironment(), 0.04 ).tex
 const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
 camera.position.set( 3, 3, 0 );
 
+function dumpObject(obj, lines = [], isLast = true, prefix = '') {
+    const localPrefix = isLast ? '└─' : '├─';
+    lines.push(`${prefix}${prefix ? localPrefix : ''}${obj.name || '*no-name*'} [${obj.type}]`);
+    const newPrefix = prefix + (isLast ? '  ' : '│ ');
+    const lastNdx = obj.children.length - 1;
+    obj.children.forEach((child, ndx) => {
+      const isLast = ndx === lastNdx;
+      dumpObject(child, lines, isLast, newPrefix);
+    });
+    return lines;
+  }
+
 const controls = new OrbitControls( camera, renderer.domElement );
 controls.target.set( 0, 0.5, 0 );
 controls.update();
 controls.enablePan = true;
 controls.enableDamping = true;
 
+let modelX = 1;
+let modelY = 1;
+let modelZ = 1;
+
 const loader = new GLTFLoader();
 loader.load( 'assets/herman_miller_eames_lounge_chair/scene.gltf', function ( gltf ) {
     
     const model = gltf.scene;
     model.position.set( 0, 0, 0 );
-    model.scale.set( 1, 1, 1 );
+    model.scale.set( modelX, modelY, modelZ );
     scene.add( model );
     renderer.setAnimationLoop( animate );
+    console.log(dumpObject(model).join('\n'));
 
 }, undefined, function ( error ) {
     
@@ -70,13 +87,19 @@ const myObject = {
 	myBoolean: true,
 	myFunction: function() { console.log( 'Button Clicked!' ); },
 	myString: 'lil-gui',
-	myNumber: 1
+	myNumber: 1,
+    color1: '#ff0000',
 };
 
 gui.add( myObject, 'myBoolean' );  // Checkbox
 gui.add( myObject, 'myFunction' ); // Button
 gui.add( myObject, 'myString' );   // Text Field
 gui.add( myObject, 'myNumber' );   // Number Field
+gui.add( myObject, 'color1' );     // Color Field
+
+gui.add( modelX, 'X');
+gui.add( modelY, 'Y');
+gui.add( modelZ, 'Z');
 
 // Add sliders to number fields by passing min and max
 gui.add( myObject, 'myNumber', 0, 1 );

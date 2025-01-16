@@ -1,0 +1,26 @@
+{
+  "name": "modelview",
+  "version": "1.0.0",
+  "description": "model viewer built with threejs",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuksavic/modelview.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/vuksavic/modelview/issues"
+  },
+  "homepage": "https://github.com/vuksavic/modelview#readme",
+  "dependencies": {
+    "vite": "^6.0.7"
+  }
+}
