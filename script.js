@@ -18,7 +18,7 @@ renderer.setPixelRatio( window.devicePixelRatio )
 renderer.setSize( window.innerWidth, window.innerHeight )
 container.appendChild( renderer.domElement )
 
-const pmrremGenerator = new THREE.PMREMGenerator( renderer )
+const pmremGenerator = new THREE.PMREMGenerator( renderer )
 
 function dumpObject(obj, lines = [], isLast = true, prefix = '') {
     const localPrefix = isLast ? '└─' : '├─'
@@ -34,19 +34,31 @@ function dumpObject(obj, lines = [], isLast = true, prefix = '') {
 
 const scene = new THREE.Scene()
 scene.background = new THREE.Color( 0xbfe3dd )
-scene.environment = pmrremGenerator.fromScene( new RoomEnvironment(), 0.04 ).texture
+scene.environment = pmremGenerator.fromScene( new RoomEnvironment(), 0.04 ).texture
+scene.fog = new THREE.Fog(0xa0a0a0, 10, 50)
 
 const loader = new GLTFLoader();
 loader.load( 'assets/herman_miller_eames_lounge_chair/scene.gltf', function ( gltf ) {
     const model = gltf.scene;
+    const wireframeController = gui.add({ wireframe: false }, 'wireframe').name('Wireframe');
+
+    wireframeController.onChange(function(wireframe) {
+        model.traverse(function(object) {
+            if (object.isMesh) object.material.wireframe = wireframe;
+        });
+    });
+
+    model.traverse(function (object) {
+        if (object.isMesh) object.castShadow = true
+    })
+    
     model.position.set( 0, 0, 0 );
     model.scale.set( 1, 1, 1 );
     scene.add( model );
     console.log(dumpObject(model).join('\n'));
-    
 }, undefined, function ( error ) {
     console.error( error );    
-} );
+});
 
 const sizes = {
     width: 800,
@@ -57,6 +69,7 @@ const aspectRatio = sizes.width / sizes.height
 const perspCamera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.001, 1000 )
 const orthoCamera = new THREE.OrthographicCamera(-1 * aspectRatio, 1 * aspectRatio, 1, -1, 0.01, 100000)
 let camera = perspCamera
+
 gui.add(camera, 'camera', ['perspective', 'orthographic'] ).onChange(function(value) {
     if (value === 'orthographic') {
         camera = orthoCamera
@@ -66,6 +79,7 @@ gui.add(camera, 'camera', ['perspective', 'orthographic'] ).onChange(function(va
     controls.object = camera
     controls.update()
 })
+
 camera.position.set( 3, 3, 0 )
 
 scene.add( camera )
@@ -74,7 +88,6 @@ controls.target.set( 0, 0.5, 0 )
 controls.update()
 controls.enablePan = true
 controls.enableDamping = true
-
 
 window.onresize = function() {
     
