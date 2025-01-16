@@ -70,12 +70,10 @@ const perspCamera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.
 const orthoCamera = new THREE.OrthographicCamera(-1 * aspectRatio, 1 * aspectRatio, 1, -1, 0.01, 100000)
 let camera = perspCamera
 
-gui.add(camera, 'camera', ['perspective', 'orthographic'] ).onChange(function(value) {
-    if (value === 'orthographic') {
+gui.add({ camera: 'perspective' }, 'camera', ['perspective', 'orthographic'] ).onChange(function(value) {
+    if (value === 'orthographic')
         camera = orthoCamera
-    } else {
-        camera = perspCamera
-    }
+    else camera = perspCamera
     controls.object = camera
     controls.update()
 })
