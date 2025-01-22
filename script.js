@@ -53,7 +53,7 @@ scene.environment = pmremGenerator.fromScene( new RoomEnvironment(), 0.04 ).text
 const loader = new GLTFLoader();
 loader.load( 'assets/herman_miller_eames_lounge_chair/scene.gltf', function ( gltf ) {
     const model = gltf.scene;
-    const wireframeController = gui.add({ wireframe: false }, 'wireframe').name('Wireframe');
+    const wireframeController = gui.add({ wireframe: false }, 'wireframe').name('chair wireframe');
     
     wireframeController.onChange(function(wireframe) {
         model.traverse(function(object) {
@@ -98,8 +98,10 @@ rgbeLoader.load('static/environmentMaps/2/2k.hdr', (environmentMap) => {
     scene.environmentIntensity = 1
 
     const skybox = new GroundedSkybox(environmentMap, 5, 40)
+    skybox.material.wireframe = false
     skybox.position.y = 5
     scene.add(skybox)
+    gui.add(skybox.material, 'wireframe').name('skybox wireframe')
 })
 
 gui.add(scene, 'environmentIntensity').min(0).max(10).step(0.01)
