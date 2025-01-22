@@ -95,11 +95,14 @@ const rgbeLoader = new RGBELoader()
 rgbeLoader.load('static/environmentMaps/2/2k.hdr', (environmentMap) => {
     environmentMap.mapping = THREE.EquirectangularReflectionMapping
     scene.environment = environmentMap
+    scene.environmentIntensity = 1
 
-    const skybox = new GroundedSkybox(environmentMap, 5, 70)
+    const skybox = new GroundedSkybox(environmentMap, 5, 40)
     skybox.position.y = 5
     scene.add(skybox)
 })
+
+gui.add(scene, 'environmentIntensity').min(0).max(10).step(0.01)
 
 const sizes = {
     width: 800,
@@ -116,6 +119,7 @@ let camera = perspCamera
 gui.add({ camera: 'perspective' }, 'camera', ['perspective', 'orthographic'] ).onChange(function(value) {
     if (value === 'orthographic') {
         camera = orthoCamera
+        camera.position.z = 300;
     }
     else camera = perspCamera
     controls.object = camera
